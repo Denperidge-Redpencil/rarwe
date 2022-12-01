@@ -9,6 +9,16 @@
                 </h1>
             </a>
         </div>
+        <nav class="h-8 flex items-center mb-8">
+            {{#each
+                (array
+                    "bands"
+                    "songs"
+                ) as |nav|
+            }}
+            <LinkTo class="hover:text-gray-500 mr-4" @route="{{nav}}">{{ nav }}</LinkTo>
+            {{/each}}
+        </nav>
         {{outlet}}
     </div>
 </div>
