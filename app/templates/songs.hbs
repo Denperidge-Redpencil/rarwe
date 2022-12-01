@@ -1,0 +1,15 @@
+{{page-title "Songs"}}
+<ul>
+    {{!-- Ratings based on what a normal person would rate them --}}
+    {{#each
+        (array
+            (hash title="Ultra Violent Light Cannon" band="Newgrounds Death Rugby" rating=2)
+            (hash title="pretty girl snuff film" band="Bird Fear Death" rating=1)
+            (hash title="lost cause// (with grandson)" band="Kennyhoopla" rating=4)
+        ) as |song|
+    }}
+        <li class="leading-loose">
+            {{song.title}} by {{song.band}} <span class="float-right">{{song.rating}}</span>
+        </li>
+    {{/each}}
+</ul>
