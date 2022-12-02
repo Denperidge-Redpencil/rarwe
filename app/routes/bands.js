@@ -14,7 +14,7 @@ class Band {
 }
 
 class Song {
-  constructor({ title, rating, band}) {
+  constructor({ title, rating, band }) {
     this.title = title;
     this.rating = rating ?? 0;
     this.band = band;
@@ -24,38 +24,36 @@ class Song {
 export default class BandsRoute extends Route {
   model() {
     let ultraViolentLightCannon = new Song({
-      title: "Ultra Violent Light Cannon",
-      band: "Newgrounds Death Rugby",
-      rating: 4
+      title: 'Ultra Violent Light Cannon',
+      band: 'Newgrounds Death Rugby',
+      rating: 4,
     });
     let thosMoser = new Song({
-      title: "Thos Moser",
-      band: "food house",
-      rating: 2
+      title: 'Thos Moser',
+      band: 'food house',
+      rating: 2,
     });
     let desktop = new Song({
-      title: "DESKTOP!!",
-      band: "CORNER STORE KINGDOM",
-      rating: 3
+      title: 'DESKTOP!!',
+      band: 'CORNER STORE KINGDOM',
+      rating: 3,
     });
 
-
     let ngdr = new Band({
-      id: "1",
+      id: '1',
       name: 'Newgrounds Death Rugby',
-      songs: [ultraViolentLightCannon]
+      songs: [ultraViolentLightCannon],
     });
 
     let foodHouse = new Band({
       name: 'food house',
-      songs: [thosMoser]
+      songs: [thosMoser],
     });
 
     let csk = new Band({
       name: 'CORNER STORE KINGDOM',
-      songs: [desktop]
+      songs: [desktop],
     });
-
 
     return [ngdr, foodHouse, csk];
   }
