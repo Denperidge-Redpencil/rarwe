@@ -7,7 +7,7 @@ class Band {
 
   constructor({ id, name, songs }) {
     //this.id = dasherize(name);
-    this.id = id ?? "meow";
+    this.id = id ?? dasherize(name);
     this.name = name;
     this.songs = songs;
   }
