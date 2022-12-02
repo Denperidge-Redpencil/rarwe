@@ -8,6 +8,7 @@ import { inject as service } from '@ember/service';
 
 export default class BandsNewController extends Controller {
   @service catalog;
+  @service router;
   
   @tracked name;
 
@@ -19,6 +20,7 @@ export default class BandsNewController extends Controller {
   @action
   saveBand() {
     let band = new Band({ name: this.name });
-    this.catalog.add('band', band)
+    this.catalog.add('band', band);
+    this.router.transitionTo('bands.band.songs', band.id);
   }
 }
