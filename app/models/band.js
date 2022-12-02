@@ -1,6 +1,7 @@
 import { tracked } from "@glimmer/tracking";
+import { dasherize } from '@ember/string';
 
-export class Band {
+export default class Band {
     @tracked name;
     @tracked songs;
   

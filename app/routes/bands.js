@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { tracked } from '@glimmer/tracking';
-import { dasherize } from '@ember/string/';
 import { inject as service } from '@ember/service';
 import Band from 'rarwe/models/band';
 import Song from 'rarwe/models/song';
