@@ -5,15 +5,15 @@ import { tracked } from '@glimmer/tracking';
 import { Band } from 'rarwe/routes/bands';
 
 export default class BandsNewController extends Controller {
-    @tracked name;
+  @tracked name;
 
-    @action
-    updateName(event) {
-        this.name = event.target.value;
-    }
+  @action
+  updateName(event) {
+    this.name = event.target.value;
+  }
 
-    @action
-    saveBand() {
-        new Band({ name: this.name });
-    }
+  @action
+  saveBand() {
+    new Band({ name: this.name });
+  }
 }
