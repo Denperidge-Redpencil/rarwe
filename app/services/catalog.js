@@ -1,13 +1,13 @@
 import Service from '@ember/service';
-import { tracked } from '@glimmer/tracking';
+import { tracked } from 'tracked-built-ins';
 
 export default class CatalogService extends Service {
-    @tracked storage = {};
+    storage = {};
 
     constructor() {
         super(...arguments);
-        this.storage.bands = [];
-        this.storage.songs = [];
+        this.storage.bands = tracked([]);
+        this.storage.songs = tracked([]);
     }
 
     add(type, record) {
