@@ -10,11 +10,13 @@ export default class CatalogService extends Service {
         this.storage.songs = [];
     }
 
-    add(record) {
+    add(type, record) {
         // add(type, record) {
-        //let collection = type === 'band' ? this.storage.bands : this.storage.songs;
-        let collection = Object.hasOwn(record, "songs") ? this.storage.bands : this.storage.songs;
+        let collection = type === 'band' ? this.storage.bands : this.storage.songs;
+        //console.log(record)
+        //let collection = Object.hasOwn(record, "songs") ? this.storage.bands : this.storage.songs;
         collection.push(record);
+        return this;
     }
 
     get bands() {

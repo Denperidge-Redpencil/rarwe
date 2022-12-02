@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { tracked } from '@glimmer/tracking';
 import { dasherize } from '@ember/string/';
+import { inject as service } from '@ember/service';
 
 export class Band {
   @tracked name;
@@ -23,6 +24,8 @@ export class Song {
 }
 
 export default class BandsRoute extends Route {
+  @service catalog;
+
   model() {
     let ultraViolentLightCannon = new Song({
       title: 'Ultra Violent Light Cannon',
@@ -56,6 +59,10 @@ export default class BandsRoute extends Route {
       songs: [desktop],
     });
 
-    return [ngdr, foodHouse, csk];
+    this.catalog.add('band', ngdr).add('band', foodHouse).add('band', csk);
+
+    return this.catalog.bands;
+
+    //return [ngdr, foodHouse, csk];
   }
 }
