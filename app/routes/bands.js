@@ -4,6 +4,7 @@ import { dasherize } from '@ember/string/';
 
 class Band {
   @tracked name;
+  @tracked songs;
 
   constructor({ id, name, songs }) {
     //this.id = dasherize(name);
