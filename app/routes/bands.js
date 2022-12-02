@@ -29,17 +29,14 @@ export default class BandsRoute extends Route {
   model() {
     let ultraViolentLightCannon = new Song({
       title: 'Ultra Violent Light Cannon',
-      band: 'Newgrounds Death Rugby',
       rating: 4,
     });
     let thosMoser = new Song({
       title: 'Thos Moser',
-      band: 'food house',
       rating: 2,
     });
     let desktop = new Song({
       title: 'DESKTOP!!',
-      band: 'CORNER STORE KINGDOM',
       rating: 3,
     });
 
@@ -58,6 +55,12 @@ export default class BandsRoute extends Route {
       name: 'CORNER STORE KINGDOM',
       songs: [desktop],
     });
+
+    ultraViolentLightCannon.band = ngdr;
+    thosMoser.band = foodHouse;
+    desktop.band = csk;
+
+    this.catalog.add('song', ultraViolentLightCannon).add('song', thosMoser).add('song', desktop);
 
     this.catalog.add('band', ngdr).add('band', foodHouse).add('band', csk);
 
