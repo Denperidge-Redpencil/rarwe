@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { tracked } from '@glimmer/tracking';
 import { dasherize } from '@ember/string/';
 
-class Band {
+export class Band {
   @tracked name;
   @tracked songs;
 
