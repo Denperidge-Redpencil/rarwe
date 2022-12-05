@@ -48,6 +48,30 @@ export default class CatalogService extends Service {
 
     }
 
+    loadAll(json) {
+        let records = [];
+        for (let item of json.data) {
+            record.push(this._loadResource(item));
+        }
+        return records;
+    }
+
+    _loadResource(data) {
+        let record;
+        let { id, type, attributes, relationships } = data;
+        if (type === 'bands') {
+            let rels = extractRelationships(relationships);
+            record = new Band({ id, ...attributes }, rels);
+            this.add('band', record);
+        }
+        if (type === 'songs') {
+            let rels = extractRelationships(relationships);
+            record = new Song({ id, ...attributes }, rels);
+            this.add('song', record);
+        }
+        return record;
+    }
+
     add(type, record) {
         // add(type, record) {
         let collection = type === 'band' ? this.storage.bands : this.storage.songs;
