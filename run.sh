@@ -1,1 +1,1 @@
-ember s --proxy=https://json-api.rockandrollwithemberjs.com
+ember s --proxy=http://json-api.rockandrollwithemberjs.com
