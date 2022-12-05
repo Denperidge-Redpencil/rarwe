@@ -3,6 +3,7 @@ import Band from 'rarwe/models/band';
 import Song from 'rarwe/models/song';
 import { tracked } from 'tracked-built-ins';
 import { isArray } from '@ember/array';
+import fetch from 'fetch';
 
 function extractRelationships(object) {
     let relationships = {};
@@ -129,7 +130,10 @@ export default class CatalogService extends Service {
                 attributes,
             }
         };
+        console.log(requestUrl)
         requestUrl += `/${record.id}`;
+        console.log(requestUrl)
+
         await fetch(requestUrl, {
             method: 'PATCH',
             headers: {
