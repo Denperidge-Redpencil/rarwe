@@ -116,7 +116,7 @@ export default class CatalogService extends Service {
             }
         };
         requestUrl += `/${record.id}`;
-        await fetch(url, {
+        await fetch(requestUrl, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/vnd.api+json',
