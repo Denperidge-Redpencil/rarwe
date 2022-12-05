@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import Band from 'rarwe/models/band';
+import Song from 'rarwe/models/song';
 import { tracked } from 'tracked-built-ins';
 
 function extractRelationships(object) {
@@ -10,6 +11,8 @@ function extractRelationships(object) {
     return relationships;
 }
 
+let acceptedTypes = ['bands', 'songs'];
+
 export default class CatalogService extends Service {
     storage = {};
 
@@ -19,16 +22,29 @@ export default class CatalogService extends Service {
         this.storage.songs = tracked([]);
     }
 
-    async fetchAll() {
-        let response = await fetch('/bands');
+    async fetchAll(type) {
+        if (!acceptedTypes.includes(type)) throw `Type ${type} not supported. Accepted types: ${acceptedTypes}`;
+
+        let response = await fetch(`/${type}`);
         let json = await response.json();
-        for (let item of json.data) {
-            let { id, attributes, relationships } = item;
-            let rels = extractRelationships(relationships);
-            let record = new Band({ id, ...attributes }, rels);
-            this.add('band', record);
+
+        if (type === 'bands') {
+            for (let item of json.data) {
+                let { id, attributes, relationships } = item;
+                let rels = extractRelationships(relationships);
+                let record = new Band({ id, ...attributes }, rels);
+                this.add('band', record);
+            }
+            return this.bands;
+        } else if (type === 'songs') {
+            for (let item of json.data) {
+                let { id, attributes, relationships } = item;
+                let rels = extractRelationships(relationships);
+                let record = new Song({ id, ...attributes}, rels)
+                this.add('song', record);
+            }
+            return this.songs;
         }
-        return this.bands;
 
     }
 
