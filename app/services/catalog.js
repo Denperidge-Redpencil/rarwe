@@ -91,15 +91,15 @@ export default class CatalogService extends Service {
         if (type === 'band' ) {
             requestDataType = 'bands';
             requestUrl = '/bands';
-        } else {
+        } else if (type === 'song') {
             requestDataType = 'songs';
             requestUrl = '/songs';
         }
-        return requestDataType, requestUrl
+        return [ requestDataType, requestUrl ];
     }
 
     async create(type, attributes, relationships = {}) {
-        let requestDataType, requestUrl = this.getDataTypeAndUrl(type);
+        let [ requestDataType, requestUrl ] = this.getDataTypeAndUrl(type);
 
 
         let payload = {
@@ -121,7 +121,7 @@ export default class CatalogService extends Service {
     }
 
     async update(type, record, attributes) {
-        let requestDataType, requestUrl = this.getDataTypeAndUrl(type);
+        let [ requestDataType, requestUrl ] = this.getDataTypeAndUrl(type);
 
         let payload = {
             data: {
@@ -130,9 +130,7 @@ export default class CatalogService extends Service {
                 attributes,
             }
         };
-        console.log(requestUrl)
         requestUrl += `/${record.id}`;
-        console.log(requestUrl)
 
         await fetch(requestUrl, {
             method: 'PATCH',
