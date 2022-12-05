@@ -70,10 +70,9 @@ export default class CatalogService extends Service {
         this.add(typeNameSingular, record);
         return record;
     }
-
-    async create(type, attributes, relationships = {}) {
-        let requestDataType;
-        let requestUrl;
+    
+    getDataTypeAndUrl(type) {
+        let requestDataType, requestUrl;
         if (type === 'band' ) {
             requestDataType = 'bands';
             requestUrl = '/bands';
@@ -81,6 +80,12 @@ export default class CatalogService extends Service {
             requestDataType = 'songs';
             requestUrl = '/songs';
         }
+        return requestDataType, requestUrl
+    }
+
+    async create(type, attributes, relationships = {}) {
+        let requestDataType, requestUrl = this.getDataTypeAndUrl(type);
+
 
         let payload = {
             data: {
@@ -98,6 +103,27 @@ export default class CatalogService extends Service {
         });
         let json = await response.json();
         return this.load(json);
+    }
+
+    async update(type, record, attributes) {
+        let requestDataType, requestUrl = this.getDataTypeAndUrl(type);
+
+        let payload = {
+            data: {
+                id: record.id,
+                type: requestDataType,
+                attributes,
+            }
+        };
+        requestUrl += `/${record.id}`;
+        await fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/vnd.api+json',
+            },
+            body: JSON.stringify(payload),
+        });
+        
     }
 
     add(type, record) {
