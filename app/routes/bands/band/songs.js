@@ -2,7 +2,6 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import Song from 'rarwe/models/song';
 import fetch from 'fetch';
-import { faLinkSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default class BandsBandSongsRoute extends Route {
   @service catalog;
