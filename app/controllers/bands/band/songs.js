@@ -38,35 +38,12 @@ export default class BandsBandSongsController extends Controller {
 
   @action
   async saveSong() {
-    let payload = {
-      data: {
-        type: 'songs',
-        attributes: { title: this.title },
-        relationships: {
-          band: {
-            data: {
-              id: this.model.id,
-              type: 'bands'
-            }
-          }
-        }
-      }
-    };
-    let response = await fetch('/songs', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/vnd.api+json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    let json = await response.json();
-    let { id, attributes, relationships } = json.data;
-    for (let relationshipName in relationships) {
-      rels[relationshipName] = relationships[relationshipName].links.related;
-    }
-    let song = new Song({ id, ...attributes }, rels);
-    this.catalog.add('song', song);
+    let song = await this.catalog.create(
+      'song',
+      { title: this.title },
+      { band: { data: { id: this.model.id, type: 'bands' } } }
+    );
+    
     this.model.songs = [...this.model.songs, song];
     this.title = '';
     this.showAddSong = true;
