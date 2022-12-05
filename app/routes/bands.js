@@ -8,6 +8,7 @@ export default class BandsRoute extends Route {
   @service catalog;
 
   async model() {
+    return this.catalog.fetchAll();
     /*
     let ultraViolentLightCannon = new Song({
       title: 'Ultra Violent Light Cannon',
@@ -46,6 +47,7 @@ export default class BandsRoute extends Route {
 
     this.catalog.add('band', ngdr).add('band', foodHouse).add('band', csk);
     */
+    /*
     let response = await fetch('/bands');
     let json = await response.json();
     console.log(json)
@@ -61,6 +63,7 @@ export default class BandsRoute extends Route {
     }
 
     return this.catalog.bands;
+    */
 
     //return [ngdr, foodHouse, csk];
   }
