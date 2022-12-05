@@ -50,8 +50,12 @@ export default class BandsRoute extends Route {
     let json = await response.json();
     console.log(json)
     for (let item of json.data) {
-      let { id, attributes } = item;  // Don't forget the {} before you get stuck for way too long
-      let record = new Band({id, ...attributes});
+      let { id, attributes, relationships } = item;  // Don't forget the {} before you get stuck for way too long
+      let rels = {};
+      for (let relationshipName in relationships) {
+        rels[relationshipName] = relationships[relationshipName].links.related;
+      }
+      let record = new Band({id, ...attributes}, rels);
       console.log(record)
       this.catalog.add('band', record);
     }
