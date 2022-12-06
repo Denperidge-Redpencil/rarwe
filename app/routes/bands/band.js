@@ -7,6 +7,6 @@ export default class BandsBandRoute extends Route {
   model(params) {
     // This route was generated with a dynamic segment. Implement data loading
     // based on that dynamic segment here in the model hook.
-    return this.catalog.find('band', (band) => band.id === params.id);
+    return this.catalog.findById('band', params.id);
   }
 }

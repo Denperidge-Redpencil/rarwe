@@ -20,8 +20,8 @@ export default class CatalogService extends Service {
 
     constructor() {
         super(...arguments);
-        this.storage.bands = tracked([]);
-        this.storage.songs = tracked([]);
+        this.storage.bands = tracked(new Map());
+        this.storage.songs = tracked(new Map());
     }
 
     async fetchRelated(record, relationship) {
@@ -131,7 +131,7 @@ export default class CatalogService extends Service {
             }
         };
         requestUrl += `/${record.id}`;
-        Documents
+        //Documents
         await fetch(requestUrl, {
             method: 'PATCH',
             headers: {
@@ -148,23 +148,30 @@ export default class CatalogService extends Service {
         //console.log(record)
         //let collection = Object.hasOwn(record, "songs") ? this.storage.bands : this.storage.songs;
         //collection.push(record);
-        let recordIds = collection.map((record) => record.id);
-        if (!recordIds.includes(record.id)) {
-            collection.push(record);
+        console.log(record.id)
+        if (!collection.get(record.id)) {
+            console.log("adding...")
+            collection.set(record.id, record);
+            console.log(collection)
             return this;
         }
     }
 
     get bands() {
-        return this.storage.bands;
+        return this.storage.bands.values();
     }
 
     get songs() {
-        return this.storage.songs;
+        return this.storage.songs.values();
     }
 
     find(type, filterFn) {
         let collection = type === 'band' ? this.bands : this.songs;
         return collection.find(filterFn);
+    }
+
+    findById(type, id) {
+        let collection = type === 'band' ? this.bands : this.songs;
+        return collection.get(id);
     }
 }
