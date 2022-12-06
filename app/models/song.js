@@ -3,8 +3,6 @@ import { inject as service } from '@ember/service';
 
 export default class Song {
   @tracked rating;
-  @service catalog;
-
   constructor({ id, title, rating, band }, relationships = {}) {
     this.id = id;
     this.title = title;
@@ -13,7 +11,7 @@ export default class Song {
     this.relationships = relationships;
   }
 
-  save(attributes) { 
-    return this.catalog.songs;//.update('song', this, attributes);
+  save(catalog, attributes) { 
+    return catalog.update('song', this, attributes);
   }
 }
