@@ -13,15 +13,63 @@ function extractRelationships(object) {
     return relationships;
 }
 
-let acceptedTypes = ['bands', 'songs'];
+class Collection {
+    constructor(Class, singular, plural, endpoint) {
+        this.singular = singular;
+        this.plural = plural;
+        this.endpoint = endpoint;
+        this.Class = Class;
+        this.map = tracked(new Map());
+        // Thanks to https://stackoverflow.com/a/28402429
+        //this.getter = Object.getOwnPropertyDescriptor();
+    }
+
+    get id() {
+        return this.singular;
+    }
+
+    // Based on API
+    get type() {
+        return this.plural;
+    }
+
+    get(...args) {
+        return this.map.get(...args);
+    }
+
+    set(...args) {
+        return this.map.set(...args);
+    }
+
+    // Meant for the Catalogs getters
+    // If the collection data has to be sent to another place,
+    // you probably want to use this
+    get values() {
+        return Array.from(this.map.values());
+    }
+
+    typeEquals(type) {
+        return type === this.singular || type === this.plural;
+    }
+}
 
 export default class CatalogService extends Service {
     storage = {};
 
     constructor() {
         super(...arguments);
-        this.storage.bands = tracked(new Map());
-        this.storage.songs = tracked(new Map());
+        this.storage.bands = new Collection(Band, 'band', 'bands', '/bands')
+        this.storage.songs = new Collection(Song, 'song', 'songs', '/songs')
+    }
+
+    selectCollection(typeToSelect) {
+        if (this.storage.bands.typeEquals(typeToSelect)) {
+            return this.storage.bands;
+        } else if (this.storage.songs.typeEquals(typeToSelect)) {
+            return this.storage.songs;
+        } else {
+            throw `Type ${typeToSelect} is not (yet) implemented.`; 
+        }
     }
 
     async fetchRelated(record, relationship) {
@@ -37,30 +85,20 @@ export default class CatalogService extends Service {
     }
     
 
-    async fetchAll(type) {
-        if (!acceptedTypes.includes(type)) throw `Type ${type} not supported. Accepted types: ${acceptedTypes}`;
+    async fetchAll(typeToFetch) {
+        let collection = this.selectCollection(typeToFetch);
 
-        let response = await fetch(`/${type}`);
+        let response = await fetch(collection.endpoint);
         let json = await response.json();
 
-        if (type === 'bands') {
-            for (let item of json.data) {
-                let { id, attributes, relationships } = item;
-                let rels = extractRelationships(relationships);
-                let record = new Band({ id, ...attributes }, rels);
-                this.add('band', record);
-            }
-            return this.bands;
-        } else if (type === 'songs') {
-            for (let item of json.data) {
-                let { id, attributes, relationships } = item;
-                let rels = extractRelationships(relationships);
-                let record = new Song({ id, ...attributes}, rels)
-                this.add('song', record);
-            }
-            return this.songs;
+        for (let item of json.data) {
+            let { id, attributes, relationships } = item;
+            let rels = extractRelationships(relationships);
+            let record = new collection.Class({ id, ...attributes }, rels);
+            this.add(collection.id, record);
         }
 
+        return collection.values;
     }
 
     loadAll(json) {
@@ -78,28 +116,18 @@ export default class CatalogService extends Service {
     _loadResource(data) {
         let record;
         let { id, type, attributes, relationships } = data;
-        let resourceType = type === 'bands' ? Band : Song
-        let typeNameSingular = type.substring(0, type.length - 1);  // bands --> band, songs --> song
+        let collection = this.selectCollection(type);
         let rels = extractRelationships(relationships);
-        record = new resourceType({ id, ...attributes }, rels);
-        this.add(typeNameSingular, record);
+
+        record = new collection.Class({ id, ...attributes }, rels);
+
+        this.add(collection.singular, record);
         return record;
-    }
-    
-    getDataTypeAndUrl(type) {
-        let requestDataType, requestUrl;
-        if (type === 'band' ) {
-            requestDataType = 'bands';
-            requestUrl = '/bands';
-        } else if (type === 'song') {
-            requestDataType = 'songs';
-            requestUrl = '/songs';
-        }
-        return [ requestDataType, requestUrl ];
     }
 
     async create(type, attributes, relationships = {}) {
-        let [ requestDataType, requestUrl ] = this.getDataTypeAndUrl(type);
+        let collection = this.selectCollection(type);
+        let [ requestDataType, requestUrl ] = [collection.type, collection.endpoint];
 
 
         let payload = {
@@ -121,7 +149,8 @@ export default class CatalogService extends Service {
     }
 
     async update(type, record, attributes) {
-        let [ requestDataType, requestUrl ] = this.getDataTypeAndUrl(type);
+        let collection = this.selectCollection(type);
+        let [ requestDataType, requestUrl ] = [collection.type, collection.endpoint];
 
         let payload = {
             data: {
@@ -144,7 +173,7 @@ export default class CatalogService extends Service {
 
     add(type, record) {
         // add(type, record) {
-        let collection = type === 'band' ? this.storage.bands : this.storage.songs;
+        let collection = this.selectCollection(type);
         //console.log(record)
         //let collection = Object.hasOwn(record, "songs") ? this.storage.bands : this.storage.songs;
         //collection.push(record);
@@ -156,20 +185,20 @@ export default class CatalogService extends Service {
 
     // triggers when using this.bands & this.songs, NOT when using this.storage.bands & this.storage.songs
     get bands() {
-        return Array.from(this.storage.bands.values());
+        return this.storage.bands.values;
     }
 
     get songs() {
-        return Array.from(this.storage.songs.values());
+        return this.storage.songs.values;
     }
 
     find(type, filterFn) {
-        let collection = type === 'band' ? this.bands : this.songs;
+        let collection = this.selectCollection(type);
         return collection.find(filterFn);
     }
 
     findById(type, id) {
-        let collection = type === 'band' ? this.storage.bands : this.storage.songs;
+        let collection = this.selectCollection(type);
         return collection.get(id);
     }
 }
