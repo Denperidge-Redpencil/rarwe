@@ -157,6 +157,7 @@ export default class CatalogService extends Service {
         }
     }
 
+    // triggers when using this.bands & this.songs, NOT when using this.storage.bands & this.storage.songs
     get bands() {
         return this.storage.bands.values();
     }
@@ -171,7 +172,8 @@ export default class CatalogService extends Service {
     }
 
     findById(type, id) {
-        let collection = type === 'band' ? this.bands : this.songs;
+        let collection = type === 'band' ? this.storage.bands : this.storage.songs;
+        console.log(collection)
         return collection.get(id);
     }
 }
