@@ -177,10 +177,16 @@ export default class CatalogService extends Service {
         //console.log(record)
         //let collection = Object.hasOwn(record, "songs") ? this.storage.bands : this.storage.songs;
         //collection.push(record);
-        if (!collection.get(record.id)) {
+
+        let existingRecord = collection.get(record.id)
+
+        if (!existingRecord) {
             collection.set(record.id, record);
-            return this;
         }
+        // Whether newly added or not, get a fresh copy from the collection
+        return collection.get(record.id);
+
+        // Previously returned 'this', so I could chain collection.add().add().add();
     }
 
     // triggers when using this.bands & this.songs, NOT when using this.storage.bands & this.storage.songs
