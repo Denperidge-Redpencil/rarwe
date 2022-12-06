@@ -131,7 +131,7 @@ export default class CatalogService extends Service {
             }
         };
         requestUrl += `/${record.id}`;
-
+        Documents
         await fetch(requestUrl, {
             method: 'PATCH',
             headers: {
@@ -147,8 +147,12 @@ export default class CatalogService extends Service {
         let collection = type === 'band' ? this.storage.bands : this.storage.songs;
         //console.log(record)
         //let collection = Object.hasOwn(record, "songs") ? this.storage.bands : this.storage.songs;
-        collection.push(record);
-        return this;
+        //collection.push(record);
+        let recordIds = collection.map((record) => record.id);
+        if (!recordIds.includes(record.id)) {
+            collection.push(record);
+            return this;
+        }
     }
 
     get bands() {
