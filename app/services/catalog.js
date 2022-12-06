@@ -148,22 +148,19 @@ export default class CatalogService extends Service {
         //console.log(record)
         //let collection = Object.hasOwn(record, "songs") ? this.storage.bands : this.storage.songs;
         //collection.push(record);
-        console.log(record.id)
         if (!collection.get(record.id)) {
-            console.log("adding...")
             collection.set(record.id, record);
-            console.log(collection)
             return this;
         }
     }
 
     // triggers when using this.bands & this.songs, NOT when using this.storage.bands & this.storage.songs
     get bands() {
-        return this.storage.bands.values();
+        return Array.from(this.storage.bands.values());
     }
 
     get songs() {
-        return this.storage.songs.values();
+        return Array.from(this.storage.songs.values());
     }
 
     find(type, filterFn) {
@@ -173,7 +170,6 @@ export default class CatalogService extends Service {
 
     findById(type, id) {
         let collection = type === 'band' ? this.storage.bands : this.storage.songs;
-        console.log(collection)
         return collection.get(id);
     }
 }
