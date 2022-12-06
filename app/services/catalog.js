@@ -83,18 +83,22 @@ export default class CatalogService extends Service {
         }
         return record[relationship];
     }
-    
 
-    async fetchAll(typeToFetch) {
+    recordFromData(data, Class) {
+        let { id, attributes, relationships } = data;
+        let rels = extractRelationships(relationships);
+        let record = new Class({ id, ...attributes }, rels);
+        return record
+    }
+
+    async fetchAll(typeToFetch, all=true) {
         let collection = this.selectCollection(typeToFetch);
 
         let response = await fetch(collection.endpoint);
         let json = await response.json();
 
         for (let item of json.data) {
-            let { id, attributes, relationships } = item;
-            let rels = extractRelationships(relationships);
-            let record = new collection.Class({ id, ...attributes }, rels);
+            let record = this.recordFromData(item, collection.Class)
             this.add(collection.id, record);
         }
 
@@ -114,12 +118,9 @@ export default class CatalogService extends Service {
     }
 
     _loadResource(data) {
-        let record;
-        let { id, type, attributes, relationships } = data;
+        let { type } = data;
         let collection = this.selectCollection(type);
-        let rels = extractRelationships(relationships);
-
-        record = new collection.Class({ id, ...attributes }, rels);
+        let record = this.recordFromData(data, collection.Class);
 
         this.add(collection.singular, record);
         return record;
