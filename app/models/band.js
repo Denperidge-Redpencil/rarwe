@@ -12,5 +12,9 @@ export default class Band {
       this.songs = songs ?? [];
       this.relationships = relationships;
     }
+
+    save(catalog, attributes) { 
+      return catalog.update('band', this, attributes);
+    }
 }
   
