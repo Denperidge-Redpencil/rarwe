@@ -68,23 +68,32 @@ export default class CatalogService extends Service {
         } else if (this.storage.songs.typeEquals(typeToSelect)) {
             return this.storage.songs;
         } else {
-            throw `Type ${typeToSelect} is not (yet) implemented.`; 
+            throw `Type ${typeToSelect} is not (yet) implemented.`;
         }
     }
 
-    async fetchRelated(record, relationship) {
+    async fetchRelated(record, relationship, reverseLookupRelationship = "") {
         let url = record.relationships[relationship];
         let response = await fetch(url);
         let json = await response.json();
         if (isArray(json.data)) {
             record[relationship] = this.loadAll(json);
+
+            if (reverseLookupRelationship != "") {
+                for (let index of record[relationship].keys()) {
+                    record[relationship][index][reverseLookupRelationship] = this.fetchRelated(record[relationship][index], reverseLookupRelationship);
+                }
+            }
         } else {
             record[relationship] = this.load(json);
+            if (reverseLookupRelationship != "") {
+                record[relationship][reverseLookupRelationship] = this.fetchRelated(record[relationship], reverseLookupRelationship);
+            }
         }
         return record[relationship];
     }
 
-    recordFromData(data, Class, addTo=false) {
+    recordFromData(data, Class, addTo = false) {
         let { id, attributes, relationships } = data;
         let rels = extractRelationships(relationships);
         let record = new Class({ id, ...attributes }, rels);
@@ -98,12 +107,12 @@ export default class CatalogService extends Service {
         return this.fetch(typeToFetch, true);
     }
 
-    async fetch(typeToFetch, all=false) {
+    async fetch(typeToFetch, all = false) {
         let collection = this.selectCollection(typeToFetch);
 
         let response = await fetch(collection.endpoint);
         let json = await response.json();
-        
+
         if (all) {
             for (let item of json.data) {
                 this.recordFromData(item, collection.Class, collection.id)
@@ -136,7 +145,7 @@ export default class CatalogService extends Service {
 
     async create(type, attributes, relationships = {}) {
         let collection = this.selectCollection(type);
-        let [ requestDataType, requestUrl ] = [collection.type, collection.endpoint];
+        let [requestDataType, requestUrl] = [collection.type, collection.endpoint];
 
 
         let payload = {
@@ -159,7 +168,7 @@ export default class CatalogService extends Service {
 
     async update(type, record, attributes) {
         let collection = this.selectCollection(type);
-        let [ requestDataType, requestUrl ] = [collection.type, collection.endpoint];
+        let [requestDataType, requestUrl] = [collection.type, collection.endpoint];
 
         let payload = {
             data: {
@@ -177,7 +186,7 @@ export default class CatalogService extends Service {
             },
             body: JSON.stringify(payload),
         });
-        
+
     }
 
     add(type, record) {
