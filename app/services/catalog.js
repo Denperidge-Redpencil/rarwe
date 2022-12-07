@@ -100,8 +100,12 @@ export default class CatalogService extends Service {
         let response = await fetch(collection.endpoint);
         let json = await response.json();
         
-        for (let item of json.data) {
-            let record = this.recordFromData(item, collection.Class, addTo=collection.id)
+        if (all) {
+            for (let item of json.data) {
+                this.recordFromData(item, collection.Class, collection.id)
+            }
+        } else {
+            this.recordFromData(item, collection.Class, collection.id);
         }
 
         return collection.values;
