@@ -94,7 +94,11 @@ export default class CatalogService extends Service {
         return record;
     }
 
-    async fetch(typeToFetch, all=true) {
+    async fetchAll(typeToFetch) {
+        return this.fetch(typeToFetch, true);
+    }
+
+    async fetch(typeToFetch, all=false) {
         let collection = this.selectCollection(typeToFetch);
 
         let response = await fetch(collection.endpoint);
