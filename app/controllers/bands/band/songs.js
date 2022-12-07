@@ -14,8 +14,8 @@ export default class BandsBandSongsController extends Controller {
   async updateRating(song, rating) {
     song.rating = rating;
     //this.catalog.update('song', song, { rating });
-    song.save(this.catalog, {rating});
-    console.log(song)
+    song.save(this.catalog, { rating });
+    console.log(song);
   }
 
   @action

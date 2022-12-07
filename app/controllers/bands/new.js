@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 export default class BandsNewController extends Controller {
   @service catalog;
   @service router;
-  
+
   @tracked name;
 
   @action

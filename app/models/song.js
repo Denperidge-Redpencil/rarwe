@@ -11,7 +11,7 @@ export default class Song {
     this.relationships = relationships;
   }
 
-  save(catalog, attributes) { 
+  save(catalog, attributes) {
     return catalog.update('song', this, attributes);
   }
 }

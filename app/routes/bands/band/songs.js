@@ -5,7 +5,7 @@ import fetch from 'fetch';
 
 export default class BandsBandSongsRoute extends Route {
   @service catalog;
-  
+
   async model() {
     let band = this.modelFor('bands.band');
     await this.catalog.fetchRelated(band, 'songs', 'band');
