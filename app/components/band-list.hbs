@@ -1,0 +1,9 @@
+<ul class="p1-2 pr-8">
+    {{#each @bands as |band|}}
+    <li class="mb-2">
+        <LinkTo @route="bands.band" @model="{{band.id}}">
+            {{band.name}}
+        </LinkTo>
+    </li>
+    {{/each}}
+</ul>
