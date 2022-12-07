@@ -130,7 +130,7 @@ export default class CatalogService extends Service {
     _loadResource(data) {
         let { type } = data;
         let collection = this.selectCollection(type);
-        let record = this.recordFromData(data, collection.Class, addTo=collection.id);
+        let record = this.recordFromData(data, collection.Class, collection.id);
         return record;
     }
 
