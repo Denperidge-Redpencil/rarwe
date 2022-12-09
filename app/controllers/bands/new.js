@@ -18,7 +18,9 @@ export default class BandsNewController extends Controller {
 
       if (transition.from.name === 'bands.new') {
         if (this.name) {
-          let leave = window.confirm('You have unsaved changes. Are you sure you want to leave this page?');
+          let leave = window.confirm(
+            'You have unsaved changes. Are you sure you want to leave this page?'
+          );
           if (leave) {
             this.confirmedLeave = true;
           } else {
