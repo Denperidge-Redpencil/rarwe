@@ -1,0 +1,3 @@
+[submodule "rarwe-backend"]
+	path = rarwe-backend
+	url = https://github.com/Denperidge/rarwe-backend.git
