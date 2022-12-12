@@ -1,7 +1,9 @@
 #!/bin/bash
 
 function menu {
-    clear
+    echo
+    echo
+    echo
     echo "0: Exit"
     echo "1: Run Ember server with rarwe proxy"
     echo "2: Run Ember test"
