@@ -5,9 +5,10 @@ function menu {
     echo
     echo
     echo "0: Exit"
-    echo "1: Run Ember server with rarwe proxy"
+    echo "1: Run Ember server with rockandrollwithemberjs.com proxy"
     echo "2: Run Ember test"
     echo "3: Run docker-compose"
+    echo "4: Run Ember server with localhost proxy"
 
     read -p "Select [0]: " selection
 

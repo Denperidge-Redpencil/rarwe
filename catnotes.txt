@@ -1,3 +1,0 @@
-You might have to run this from an elevated command line woopsie
-
-Commits will use internal page numbers, not PDF numbers
