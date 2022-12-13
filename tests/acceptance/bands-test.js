@@ -16,7 +16,7 @@ module('Acceptance | bands', function (hooks) {
 
     assert.strictEqual(getPageTitle(), 'Bands | Rock & Roll with Octane');
 
-    let bandLinks = document.querySelectorAll('.mb > a');
+    let bandLinks = document.querySelectorAll('.mb-2 > a');
     assert.strictEqual(bandLinks.length, 2, 'All band links are rendered');
     assert.ok(
       bandLinks[0].textContent.includes('Radiohead'),
