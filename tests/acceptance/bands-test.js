@@ -10,8 +10,7 @@ module('Acceptance | bands', function (hooks) {
 
   test('List /bands', async function (assert) {
     this.server.create('band', { name: 'Radiohead' });
-    this.server.create('band', { name: 'Long Distance Calling' })
-
+    this.server.create('band', { name: 'Long Distance Calling' });
 
     await visit('/');
 
@@ -25,6 +24,7 @@ module('Acceptance | bands', function (hooks) {
     );
     assert.ok(
       bandLinks[1].textContent.includes('Long Distance Calling'),
-      'The other band link contains the band name');
+      'The other band link contains the band name'
+    );
   });
 });
