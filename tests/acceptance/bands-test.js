@@ -4,8 +4,11 @@ import { setupApplicationTest } from 'rarwe/tests/helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
 
-import { testSelector, dataTestSteps, createBand } from 'rarwe/tests/helpers/custom-helpers';
-
+import {
+  testSelector,
+  dataTestSteps,
+  createBand,
+} from 'rarwe/tests/helpers/custom-helpers';
 
 module('Acceptance | bands', function (hooks) {
   setupApplicationTest(hooks);
@@ -22,13 +25,10 @@ module('Acceptance | bands', function (hooks) {
     assert
       .dom(testSelector('band-link'))
       .exists({ count: 2 }, 'All band links are rendered');
-    
+
     assert
       .dom(testSelector('band-list-item', ':first-child'))
-      .hasText(
-        'Radiohead', 
-        'The first band link contains the band name'
-      );
+      .hasText('Radiohead', 'The first band link contains the band name');
 
     assert
       .dom(testSelector('band-list-item', ':last-child'))
@@ -43,7 +43,7 @@ module('Acceptance | bands', function (hooks) {
 
     await visit('/');
     await createBand('Caspian');
-    await waitFor(testSelector('no-songs-text'))
+    await waitFor(testSelector('no-songs-text'));
 
     assert
       .dom(testSelector('band-list-item'))
