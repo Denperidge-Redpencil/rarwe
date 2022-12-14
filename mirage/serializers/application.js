@@ -15,8 +15,8 @@ export default JSONAPISerializer.extend({
         band: {
           related: `/songs/${id}/band`,
           self: `/songs/${id}/relationships/band`,
-        }
-      }
+        },
+      };
     }
   },
 });

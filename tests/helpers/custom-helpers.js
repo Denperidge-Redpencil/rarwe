@@ -15,9 +15,8 @@ export async function dataTestSteps(...args) {
     let selector;
     if (target.startsWith('[')) {
       selector = target;
-    }
-    else { 
-      selector = testSelector(target); 
+    } else {
+      selector = testSelector(target);
     }
 
     // If no additional parameter

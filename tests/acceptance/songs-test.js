@@ -13,39 +13,37 @@ module('Acceptance | songs', function (hooks) {
   setupMirage(hooks);
 
   test('List songs', async function (assert) {
-    let csk = this.server.create('band', { name: 'Corner Store Kingdom '});
+    let csk = this.server.create('band', { name: 'Corner Store Kingdom' });
     this.server.create('song', { title: 'DESKTOP!!!', rating: 3, band: csk });
-    
-    await visit('/');
-    
-    await dataTestSteps(
-      click, testSelector('band-link', ':first-child'),
-      click, 'songs-nav-item'
-    );
-    await waitFor(testSelector('song-item'))
 
-    assert
-      .dom(testSelector('song-item'))
-      .hasText('DESKTOP!!!');
+    await visit('/');
+
+    await dataTestSteps(
+      click,
+      testSelector('band-link', ':first-child'),
+      click,
+      'songs-nav-item'
+    );
+    await waitFor(testSelector('song-item'));
+
+    assert.dom(testSelector('song-item')).hasText('DESKTOP!!!');
   });
 
-  
   test('Create a song', async function (assert) {
-    this.server.create('band', { name: 'Corner Store Kingdom '});
+    this.server.create('band', { name: 'Corner Store Kingdom ' });
 
     await visit('/');
     await dataTestSteps(
-      click, testSelector('band-link', ':first-child'),
-      click, 'songs-nav-item'
+      click,
+      testSelector('band-link', ':first-child'),
+      click,
+      'songs-nav-item'
     );
 
     await createSong('DESKTOP!!!');
 
-    await waitFor(testSelector('song-item'))
+    await waitFor(testSelector('song-item'));
 
-    assert
-      .dom(testSelector('song-item'))
-      .hasText('DESKTOP!!!');
+    assert.dom(testSelector('song-item')).hasText('DESKTOP!!!');
   });
-  
 });
