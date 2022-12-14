@@ -55,14 +55,23 @@ export async function createSong(title) {
   );
 }
 
-
-export function starRatingCheck(assert, amountFull, amountEmpty, extraText="") {
+export function starRatingCheck(
+  assert,
+  amountFull,
+  amountEmpty,
+  extraText = ''
+) {
   assert
     .dom(testSelector('full-star'))
-    .exists({ count: amountFull }, 'The right amount of full stars is rendered' + extraText);
+    .exists(
+      { count: amountFull },
+      'The right amount of full stars is rendered' + extraText
+    );
 
   assert
     .dom(testSelector('empty-star'))
-    .exists({ count: amountEmpty }, 'The right amount of empty stars is rendered' + extraText);
-
+    .exists(
+      { count: amountEmpty },
+      'The right amount of empty stars is rendered' + extraText
+    );
 }

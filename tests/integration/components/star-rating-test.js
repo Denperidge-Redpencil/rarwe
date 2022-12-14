@@ -4,7 +4,7 @@ import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import {
   testSelector,
-  starRatingCheck
+  starRatingCheck,
 } from 'rarwe/tests/helpers/custom-helpers';
 
 module('Integration | Component | star-rating', function (hooks) {
@@ -36,7 +36,7 @@ module('Integration | Component | star-rating', function (hooks) {
     this.set('updateRating', (rating) => {
       assert.step(`Updated to rating: ${rating}`);
     });
-    
+
     await render(hbs`
       <StarRating
         @rating={{this.rating}}
@@ -45,6 +45,5 @@ module('Integration | Component | star-rating', function (hooks) {
     `);
     await click(testSelector('star-rating-button', ':nth-child(4)'));
     assert.verifySteps(['Updated to rating: 4']);
-
   });
 });
