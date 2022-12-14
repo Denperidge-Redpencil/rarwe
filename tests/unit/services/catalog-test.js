@@ -28,4 +28,28 @@ module('Unit | Service | catalog', function (hooks) {
     assert.strictEqual(catalog.songs[0].title, 'Achilles Last Stand')
   });
 
+  test('it can load a record from a JSON:API response', function (assert) {
+    let catalog = this.owner.lookup('service:catalog');
+    catalog.load({
+      data: {
+        type: 'bands',
+        id: '1',
+        attributes: {
+          name: 'TOOL',
+        },
+        relationships: {
+          songs: {
+            links: {
+              related: '/bands/1/songs'
+            }
+          }
+        }
+      }
+    });
+    
+    let band = catalog.bands[0];
+    assert.strictEqual(band.name, 'TOOL');
+    assert.strictEqual(band.relationships.songs, '/bands/1/songs');
+  });
+
 });
