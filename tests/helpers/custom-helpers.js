@@ -43,3 +43,15 @@ export async function createBand(name) {
     'save-band-button'
   );
 }
+
+export async function createSong(title) {
+  return dataTestSteps(
+    click,
+    'new-song-button',
+    fillIn,
+    'new-song-title',
+    title,
+    click,
+    'save-song-button'
+  );
+}

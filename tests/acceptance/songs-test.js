@@ -5,7 +5,7 @@ import { setupApplicationTest } from 'rarwe/tests/helpers';
 import {
   testSelector,
   dataTestSteps,
-  createBand,
+  createSong,
 } from 'rarwe/tests/helpers/custom-helpers';
 
 module('Acceptance | songs', function (hooks) {
@@ -29,11 +29,23 @@ module('Acceptance | songs', function (hooks) {
       .hasText('DESKTOP!!!');
   });
 
-  /*
+  
   test('Create a song', async function (assert) {
-    await visit('/');
+    this.server.create('band', { name: 'Corner Store Kingdom '});
 
-    //assert.strictEqual(currentURL(), '/songs');
+    await visit('/');
+    await dataTestSteps(
+      click, testSelector('band-link', ':first-child'),
+      click, 'songs-nav-item'
+    );
+
+    await createSong('DESKTOP!!!');
+
+    await waitFor(testSelector('song-item'))
+
+    assert
+      .dom(testSelector('song-item'))
+      .hasText('DESKTOP!!!');
   });
-  */
+  
 });
