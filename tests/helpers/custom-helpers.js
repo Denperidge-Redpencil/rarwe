@@ -12,7 +12,13 @@ export async function dataTestSteps(...args) {
   for (let i = 0; i < args.length; i += 2) {
     let func = args[i];
     let target = args[i + 1];
-    let selector = testSelector(target);
+    let selector;
+    if (target.startsWith('[')) {
+      selector = target;
+    }
+    else { 
+      selector = testSelector(target); 
+    }
 
     // If no additional parameter
     if (typeof args[i + 2] === 'function') {
