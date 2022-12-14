@@ -9,7 +9,7 @@ export default class Band {
     //this.id = dasherize(name);
     this.id = id ?? dasherize(name);
     this.name = name;
-    this.songs = songs ?? [];
+    this.songs = songs || [];
     this.relationships = relationships;
     this.description = description;
   }
