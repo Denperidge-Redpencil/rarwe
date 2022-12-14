@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, click, fillIn } from '@ember/test-helpers';
+import { visit, click, fillIn, waitFor } from '@ember/test-helpers';
 import { setupApplicationTest } from 'rarwe/tests/helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
@@ -35,6 +35,7 @@ module('Acceptance | bands', function (hooks) {
     await click('a[href="/bands/new"]');
     await fillIn('input', 'Caspian');
     await click('button');
+    await waitFor('p.text-center');
 
     let bandLinks = document.querySelectorAll('.mb-2 > a');
     assert.strictEqual(
