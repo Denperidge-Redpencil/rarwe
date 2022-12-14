@@ -5,7 +5,7 @@ export default class BandListComponent extends Component {
   @service router;
 
   get bands() {
-    return this.args.bands.map((band) => {
+    return this.args.bands.values.map((band) => {
       return {
         band,
         isActive: this.router.isActive('bands.band', band),

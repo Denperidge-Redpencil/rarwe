@@ -128,7 +128,7 @@ export default class CatalogService extends Service {
       this.recordFromData(item, collection.Class, collection.id);
     }
 
-    return collection.values;
+    return collection;
   }
 
   loadAll(json) {
