@@ -10,6 +10,13 @@ export default JSONAPISerializer.extend({
           self: `/bands/${id}/relationships/songs`,
         },
       };
+    } else if (modelName === 'song') {
+      return {
+        band: {
+          related: `/songs/${id}/band`,
+          self: `/songs/${id}/relationships/band`,
+        }
+      }
     }
   },
 });

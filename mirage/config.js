@@ -19,6 +19,13 @@ export default function () {
   });
 
   this.post('/bands');
+
+  this.get('/songs/:id');
+  this.get('/songs/:id/band', (schema, request) => {
+    let id = request.params.id;
+    return schema.bands.where({ id: id });
+  });
+  this.post('/songs');
   /*
     Shorthand cheatsheet:
 
