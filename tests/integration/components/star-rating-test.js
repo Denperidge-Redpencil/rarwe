@@ -30,4 +30,21 @@ module('Integration | Component | star-rating', function (hooks) {
 
     starRatingCheck(assert, 2, 3, ' after changing rating');
   });
+
+  test('Calls onUpdate with the correct value', async function (assert) {
+    this.set('rating', 2);
+    this.set('updateRating', (rating) => {
+      assert.step(`Updated to rating: ${rating}`);
+    });
+    
+    await render(hbs`
+      <StarRating
+        @rating={{this.rating}}
+        @onUpdate={{this.updateRating}}
+      />
+    `);
+    await click(testSelector('star-rating-button', ':nth-child(4)'));
+    assert.verifySteps(['Updated to rating: 4']);
+
+  });
 });
