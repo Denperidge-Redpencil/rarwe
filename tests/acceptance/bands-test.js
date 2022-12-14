@@ -4,11 +4,19 @@ import { setupApplicationTest } from 'rarwe/tests/helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
 
+function testSelector(name, psuedoClass="") {
+  let selector = `[data-test-rr="${name}"]`;
+  if (psuedoClass != "") {
+    selector += `${psuedoClass}`;
+  }
+  return selector;
+}
+
 async function dataTestSteps(...args) {
   for (let i = 0; i < args.length; i+=2) {
     let func = args[i];
     let target = args[i+1];
-    let selector = `[data-test-rr="${target}"]`;
+    let selector = testSelector(target);
 
     // If no additional parameter
     if (typeof args[i+2] === 'function') { 
@@ -45,16 +53,23 @@ module('Acceptance | bands', function (hooks) {
 
     assert.strictEqual(getPageTitle(), 'Bands | Rock & Roll with Octane');
 
-    let bandLinks = document.querySelectorAll('.mb-2 > a');
-    assert.strictEqual(bandLinks.length, 2, 'All band links are rendered');
-    assert.ok(
-      bandLinks[0].textContent.includes('Radiohead'),
-      'First band link contains the band name'
-    );
-    assert.ok(
-      bandLinks[1].textContent.includes('Long Distance Calling'),
-      'The other band link contains the band name'
-    );
+    assert
+      .dom(testSelector('band-link'))
+      .exists({ count: 2 }, 'All band links are rendered');
+    
+    assert
+      .dom(testSelector('band-list-item', ':first-child'))
+      .hasText(
+        'Radiohead', 
+        'The first band link contains the band name'
+      );
+
+    assert
+      .dom(testSelector('band-list-item', ':last-child'))
+      .hasText(
+        'Long Distance Calling',
+        'The other band link contains the band name'
+      );
   });
 
   test('Create a band', async function (assert) {
@@ -68,21 +83,15 @@ module('Acceptance | bands', function (hooks) {
       waitFor, "no-songs-text"
     );
 
-    let bandLinks = document.querySelectorAll('.mb-2 > a');
-    assert.strictEqual(
-      bandLinks.length,
-      2,
-      'All band links are rendered',
-      'A new band link is rendered'
-    );
-    assert.ok(
-      bandLinks[1].textContent.includes('Caspian'),
-      'The new band link is rendered as the last item'
-    );
-    assert.ok(
-      document.querySelector('[data-test-rr="songs-nav-item"]')
-        .textContent.includes('Songs'),
-      'The Songs tab is active'
-    )
+    assert
+      .dom(testSelector('band-list-item'))
+      .exists({ count: 2 }, 'A new band link is rendered');
+    assert
+      .dom(testSelector('band-list-item', ':last-child'))
+      .hasText('Caspian', 'The new band link is rendered as the last item');
+
+    assert
+      .dom(testSelector('songs-nav-item', ' > .active'))
+      .exists('The Songs tab is active');
   });
 });
