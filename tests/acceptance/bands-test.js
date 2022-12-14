@@ -1,45 +1,11 @@
 import { module, test } from 'qunit';
-import { visit, click, fillIn, waitFor } from '@ember/test-helpers';
+import { visit, waitFor } from '@ember/test-helpers';
 import { setupApplicationTest } from 'rarwe/tests/helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
 
-function testSelector(name, psuedoClass="") {
-  let selector = `[data-test-rr="${name}"]`;
-  if (psuedoClass != "") {
-    selector += `${psuedoClass}`;
-  }
-  return selector;
-}
+import { testSelector, dataTestSteps, createBand } from 'rarwe/tests/helpers/custom-helpers';
 
-async function dataTestSteps(...args) {
-  for (let i = 0; i < args.length; i+=2) {
-    let func = args[i];
-    let target = args[i+1];
-    let selector = testSelector(target);
-
-    // If no additional parameter
-    if (typeof args[i+2] === 'function') { 
-      await func(selector);
-    }
-    // If additional parameter
-    else {
-      await func(selector, args[i+2]);
-      i++;  // Skip the additional parameter next step
-    }
-
-  }
-  /*
-  await args.forEach(async (step) => {
-    let func, target, value;
-    [ func, target, value ] = step;
-
-    target = `[data-test-rr="${args[0]}"]`;
-    func = args[1];
-    await func(target);
-  });
-  */
-}
 
 module('Acceptance | bands', function (hooks) {
   setupApplicationTest(hooks);
@@ -76,12 +42,8 @@ module('Acceptance | bands', function (hooks) {
     this.server.create('band', { name: 'Royal Blood' });
 
     await visit('/');
-    await dataTestSteps(
-      click, "new-band-button",
-      fillIn, "new-band-name", 'Caspian',
-      click, "save-band-button",
-      waitFor, "no-songs-text"
-    );
+    await createBand('Caspian');
+    await waitFor(testSelector('no-songs-text'))
 
     assert
       .dom(testSelector('band-list-item'))
