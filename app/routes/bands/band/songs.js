@@ -16,7 +16,7 @@ export default class BandsBandSongsRoute extends Route {
 
   async model() {
     let band = this.modelFor('bands.band');
-    await wait(3000);
+    //await wait(3000);
     await this.catalog.fetchRelated(band, 'songs', 'band');
     //for (let song of band.songs)
     return band;

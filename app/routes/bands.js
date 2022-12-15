@@ -7,7 +7,7 @@ export default class BandsRoute extends Route {
   @service catalog;
 
   async model() {
-    await wait(3000);
+    //await wait(3000);
     return this.catalog.fetchAll('bands');
     /*
     let ultraViolentLightCannon = new Song({
