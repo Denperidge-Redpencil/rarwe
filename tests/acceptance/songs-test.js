@@ -124,7 +124,7 @@ module('Acceptance | songs', function (hooks) {
     });
 
     await visit('/');
-    dataTestSteps(
+    await dataTestSteps(
       click, 'band-link',
       fillIn, 'search-box', 'no'
     );
