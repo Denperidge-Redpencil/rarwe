@@ -77,7 +77,7 @@ export function starRatingCheck(
 }
 
 export async function songSortCheck(
-  assert,
+  assert, currentURL,
   sortSelector,
   firstChildText,
   firstComment,
@@ -86,6 +86,15 @@ export async function songSortCheck(
 ) {
   if (sortSelector != '') {
     await click(testSelector(sortSelector));
+    // Format: sort-by-title-desc
+    let sortArgs = sortSelector.split('-');
+    let property = sortArgs[2];
+    let modifier = sortArgs[3].toLowerCase() == 'desc' ? '-' : '';
+    
+    assert.ok(
+      currentURL().includes('s=' + modifier + property),
+      'The sort query param appears in the URL with the correct value'
+    );
   }
   assert
     .dom(testSelector('song-list-item', ':first-child'))

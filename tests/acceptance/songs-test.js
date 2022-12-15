@@ -1,5 +1,5 @@
 import { assert, module, test } from 'qunit';
-import { visit, waitFor, click, fillIn } from '@ember/test-helpers';
+import { visit, waitFor, click, fillIn, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'rarwe/tests/helpers';
 import {
@@ -70,7 +70,7 @@ module('Acceptance | songs', function (hooks) {
 
     // Sort 0
     await songSortCheck(
-      assert,
+      assert, currentURL,
       '',
       'Elephants',
       'the one that comes first in the alphabet',
@@ -80,7 +80,7 @@ module('Acceptance | songs', function (hooks) {
 
     // Sort 1
     await songSortCheck(
-      assert,
+      assert, currentURL,
       'sort-by-title-desc',
       'Spinning in Daffodils',
       'the one that comes last in the alphabet',
@@ -89,7 +89,7 @@ module('Acceptance | songs', function (hooks) {
     );
 
     await songSortCheck(
-      assert,
+      assert, currentURL,
       'sort-by-rating-asc',
       'Mind Eraser, No Chaser',
       'the lowest rated',
@@ -98,7 +98,7 @@ module('Acceptance | songs', function (hooks) {
     );
 
     await songSortCheck(
-      assert,
+      assert, currentURL,
       'sort-by-rating-desc',
       'Spinning in Daffodils',
       'the highest rated',
