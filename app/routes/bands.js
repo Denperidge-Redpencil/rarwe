@@ -1,13 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import Band from 'rarwe/models/band';
-import fetch from 'fetch';
+import wait from 'rarwe/utils/wait';
 
-function wait(delay) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, delay);
-  });
-}
 
 export default class BandsRoute extends Route {
   @service catalog;
