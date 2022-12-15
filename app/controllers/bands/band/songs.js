@@ -15,7 +15,7 @@ export default class BandsBandSongsController extends Controller {
       if (song1.title < song2.title) {
         return -1;
       } else if (song1.title > song2.title) {
-        return 1
+        return 1;
       } else {
         return 0;
       }
