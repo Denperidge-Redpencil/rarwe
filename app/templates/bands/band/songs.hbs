@@ -7,23 +7,23 @@
                 @first="true"
                 @text="Title"
                 @testSelector="sort-by-title-asc"
-                @sortBy={{fn (set this "sortBy" 'title')}}
+                @s="title"
             /> 
             <SortButton
                 @text="Title"
                 @testSelector="sort-by-title-desc"
-                @sortBy={{fn (set this "sortBy" '-title')}}
+                @s="-title"
             />
             <SortButton
                 @text="Rating"
                 @testSelector="sort-by-rating-asc"
-                @sortBy={{fn (set this "sortBy" 'rating')}}
+                @s="rating"
             />
             <SortButton
                 @last="true"
                 @text="Rating"
                 @testSelector="sort-by-rating-desc"
-                @sortBy={{fn (set this "sortBy" '-rating')}}
+                @s="-rating"
             />
             
         </span>

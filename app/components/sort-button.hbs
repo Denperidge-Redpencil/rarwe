@@ -1,9 +1,8 @@
-<button 
-    type="button" 
+<LinkTo 
     class="{{if @first "rounded-l-md"}} {{ if @last "rounded-r-md"}}
             inline-flex items-center px-4 py-2 border border-gray-500 bg-purple-600 leading-5 font-medium text-gray-100 hover:text-white hover:bg-purple-500"
     data-test-rr="{{@testSelector}}"
-    {{on "click" (fn @sortBy)}}
+    @query={{hash s=@s}}
 >
     {{@text}}
     {{yield}}
@@ -12,5 +11,4 @@
         @icon={{this.icon}}
         @prefix="fas"
     />
-
-</button>
+</LinkTo>
