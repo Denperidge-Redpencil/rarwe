@@ -77,7 +77,8 @@ export function starRatingCheck(
 }
 
 export async function songSortCheck(
-  assert, currentURL,
+  assert,
+  currentURL,
   sortSelector,
   firstChildText,
   firstComment,
@@ -90,7 +91,7 @@ export async function songSortCheck(
     let sortArgs = sortSelector.split('-');
     let property = sortArgs[2];
     let modifier = sortArgs[3].toLowerCase() == 'desc' ? '-' : '';
-    
+
     assert.ok(
       currentURL().includes('s=' + modifier + property),
       'The sort query param appears in the URL with the correct value'

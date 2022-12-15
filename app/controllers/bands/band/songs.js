@@ -26,7 +26,6 @@ export default class BandsBandSongsController extends Controller {
       modifier = -1;
       sortBy = sortBy.substring(1);
     }
-    
 
     return this.matchingSongs.sort((song1, song2) => {
       if (song1[sortBy] < song2[sortBy]) {

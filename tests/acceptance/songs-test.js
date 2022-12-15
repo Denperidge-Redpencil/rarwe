@@ -70,7 +70,8 @@ module('Acceptance | songs', function (hooks) {
 
     // Sort 0
     await songSortCheck(
-      assert, currentURL,
+      assert,
+      currentURL,
       '',
       'Elephants',
       'the one that comes first in the alphabet',
@@ -80,7 +81,8 @@ module('Acceptance | songs', function (hooks) {
 
     // Sort 1
     await songSortCheck(
-      assert, currentURL,
+      assert,
+      currentURL,
       'sort-by-title-desc',
       'Spinning in Daffodils',
       'the one that comes last in the alphabet',
@@ -89,7 +91,8 @@ module('Acceptance | songs', function (hooks) {
     );
 
     await songSortCheck(
-      assert, currentURL,
+      assert,
+      currentURL,
       'sort-by-rating-asc',
       'Mind Eraser, No Chaser',
       'the lowest rated',
@@ -98,7 +101,8 @@ module('Acceptance | songs', function (hooks) {
     );
 
     await songSortCheck(
-      assert, currentURL,
+      assert,
+      currentURL,
       'sort-by-rating-desc',
       'Spinning in Daffodils',
       'the highest rated',
@@ -107,7 +111,7 @@ module('Acceptance | songs', function (hooks) {
     );
   });
 
-  test('Search songs', async function(assert) {
+  test('Search songs', async function (assert) {
     let band = this.server.create('band', { name: 'Them Crooked Vultures' });
     [
       ['Mind Eraser, No Chaser', 2],
@@ -124,23 +128,20 @@ module('Acceptance | songs', function (hooks) {
     });
 
     await visit('/');
-    await dataTestSteps(
-      click, 'band-link',
-      fillIn, 'search-box', 'no'
-    );
+    await dataTestSteps(click, 'band-link', fillIn, 'search-box', 'no');
 
     assert
       .dom(testSelector('song-list-item'))
       .exists({ count: 2 }, 'The songs matching the search term are displayed');
 
-      await songSortCheck(
-        assert, currentURL,
-        'sort-by-title-desc',
-        'No One Loves Me & Neither Do I',
-        'matching the query, and comes later in the alphabet',
-        'Mind Eraser, No Chaser',
-        'matching the query, and comes sooner in the alphabet'
-      );
-
+    await songSortCheck(
+      assert,
+      currentURL,
+      'sort-by-title-desc',
+      'No One Loves Me & Neither Do I',
+      'matching the query, and comes later in the alphabet',
+      'Mind Eraser, No Chaser',
+      'matching the query, and comes sooner in the alphabet'
+    );
   });
 });

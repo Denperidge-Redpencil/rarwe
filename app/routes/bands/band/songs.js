@@ -13,7 +13,7 @@ export default class BandsBandSongsRoute extends Route {
     searchTerm: {
       as: 'q',
     },
-  }
+  };
 
   async model() {
     let band = this.modelFor('bands.band');
