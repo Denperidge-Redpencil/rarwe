@@ -8,20 +8,18 @@ export default class BandsBandSongsController extends Controller {
   @tracked showAddSong = true;
   @tracked title = '';
   @tracked sortBy = 'title';
-  @tracked searchTerm = {target: {value: ''}};
+  @tracked searchTerm = '';
 
   @service catalog;
 
   get matchingSongs() {
-    console.log(this.searchTerm)
-    let searchTerm = this.searchTerm.target.value.toLowerCase();
+    let searchTerm = this.searchTerm.toLowerCase();
     return this.model.songs.filter((song) => {
       return song.title.toLowerCase().includes(searchTerm);
     });
   }
 
   get sortedSongs() {
-    console.log("meow")
     let sortBy = this.sortBy;
     let modifier = 1;
     if (sortBy.startsWith('-')) {
@@ -39,6 +37,11 @@ export default class BandsBandSongsController extends Controller {
         return 0;
       }
     });
+  }
+
+  @action
+  updateSearchTerm(event) {
+    this.searchTerm = event.target.value;
   }
 
   @action

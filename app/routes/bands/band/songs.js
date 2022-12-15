@@ -9,7 +9,10 @@ export default class BandsBandSongsRoute extends Route {
   queryParams = {
     sortBy: {
       as: 's',
-    }
+    },
+    searchTerm: {
+      as: 'q',
+    },
   }
 
   async model() {
