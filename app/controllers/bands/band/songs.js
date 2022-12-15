@@ -7,15 +7,25 @@ import { inject as service } from '@ember/service';
 export default class BandsBandSongsController extends Controller {
   @tracked showAddSong = true;
   @tracked title = '';
+  @tracked sortBy = 'title';
 
   @service catalog;
 
   get sortedSongs() {
+    console.log("meow")
+    let sortBy = this.sortBy;
+    let modifier = 1;
+    if (sortBy.startsWith('-')) {
+      modifier = -1;
+      sortBy = sortBy.substring(1);
+    }
+    
+
     return [...this.model.songs].sort((song1, song2) => {
-      if (song1.title < song2.title) {
-        return -1;
-      } else if (song1.title > song2.title) {
-        return 1;
+      if (song1[sortBy] < song2[sortBy]) {
+        return -1 * modifier;
+      } else if (song1[sortBy] > song2[sortBy]) {
+        return 1 * modifier;
       } else {
         return 0;
       }
