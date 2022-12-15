@@ -7,6 +7,7 @@ import {
   dataTestSteps,
   createSong,
 } from 'rarwe/tests/helpers/custom-helpers';
+import { songSortCheck } from '../helpers/custom-helpers';
 
 module('Acceptance | songs', function (hooks) {
   setupApplicationTest(hooks);
@@ -67,17 +68,23 @@ module('Acceptance | songs', function (hooks) {
 
     await click(testSelector('band-link'));
     
-    assert
-      .dom(testSelector('song-list-item', ':first-child'))
-      .hasText(
-        'Elephants',
-        'The first song is the one that comes first in the alphabet'
-      );
-    assert
-      .dom(testSelector('song-list-item', ':last-child'))
-      .hasText(
-        'Spinning in Daffodils',
-        'The last song is the one that comes last in the alphabet'
-      );
+    // Sort 0
+    await songSortCheck(assert, '',
+      'Elephants', 'the one that comes first in the alphabet',
+      'Spinning in Daffodils', 'the one that comes last in the alphabet');
+    
+    // Sort 1
+    await songSortCheck(assert, 'sort-by-title-desc',
+      'Spinning in Daffodils', 'the one that comes last in the alphabet',
+      'Elephants', 'the one that comes first in the alphabet');
+
+    await songSortCheck(assert, 'sort-by-rating-asc',
+      'Mind Eraser, No Chaser', 'the lowest rated',
+      'Spinning in Daffodils', 'the highest rated');
+    
+    await songSortCheck(assert, 'sort-by-rating-desc',
+      'Spinning in Daffodils', 'the highest rated',
+      'Mind Eraser, No Chaser', 'the lowest rated');
+    
   });
 });

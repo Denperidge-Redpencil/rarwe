@@ -75,3 +75,22 @@ export function starRatingCheck(
       'The right amount of empty stars is rendered' + extraText
     );
 }
+
+export async function songSortCheck(assert, sortSelector, firstChildText, firstComment, lastChildText, lastComment) {
+  if (sortSelector != '') {
+    await click(testSelector(sortSelector));
+  }
+  assert
+    .dom(testSelector('song-list-item', ':first-child'))
+    .hasText(
+      firstChildText,
+      'The first song is ' + firstComment
+    );
+  assert
+    .dom(testSelector('song-list-item', ':last-child'))
+    .hasText(
+      lastChildText,
+      'The last song is ' + lastComment
+    );
+
+}
