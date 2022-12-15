@@ -8,8 +8,17 @@ export default class BandsBandSongsController extends Controller {
   @tracked showAddSong = true;
   @tracked title = '';
   @tracked sortBy = 'title';
+  @tracked searchTerm = {target: {value: ''}};
 
   @service catalog;
+
+  get matchingSongs() {
+    console.log(this.searchTerm)
+    let searchTerm = this.searchTerm.target.value.toLowerCase();
+    return this.model.songs.filter((song) => {
+      return song.title.toLowerCase().includes(searchTerm);
+    });
+  }
 
   get sortedSongs() {
     console.log("meow")
@@ -21,7 +30,7 @@ export default class BandsBandSongsController extends Controller {
     }
     
 
-    return [...this.model.songs].sort((song1, song2) => {
+    return this.matchingSongs.sort((song1, song2) => {
       if (song1[sortBy] < song2[sortBy]) {
         return -1 * modifier;
       } else if (song1[sortBy] > song2[sortBy]) {

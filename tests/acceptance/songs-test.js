@@ -106,4 +106,41 @@ module('Acceptance | songs', function (hooks) {
       'the lowest rated'
     );
   });
+
+  test('Search songs', async function(assert) {
+    let band = this.server.create('band', { name: 'Them Crooked Vultures' });
+    [
+      ['Mind Eraser, No Chaser', 2],
+      ['Elephants', 4],
+      ['Spinning in Daffodils', 5],
+      ['New Fang', 3],
+      ['No One Loves Me & Neither Do I', 4],
+    ].forEach((songInfo) => {
+      this.server.create('song', {
+        title: songInfo[0],
+        rating: songInfo[1],
+        band,
+      });
+    });
+
+    await visit('/');
+    dataTestSteps(
+      click, 'band-link',
+      fillIn, 'search-box', 'no'
+    );
+
+    assert
+      .dom(testSelector('song-list-item'))
+      .exists({ count: 2 }, 'The songs matching the search term are displayed');
+
+      await songSortCheck(
+        assert, currentURL,
+        'sort-by-title-desc',
+        'No One Loves Me & Neither Do I',
+        'matching the query, and comes later in the alphabet',
+        'Mind Eraser, No Chaser',
+        'matching the query, and comes sooner in the alphabet'
+      );
+
+  });
 });
