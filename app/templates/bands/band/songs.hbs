@@ -1,6 +1,35 @@
 {{page-title @model.name " songs | Rock & Roll with Octane" replace=true}}
 
 {{#if this.sortedSongs.length}}
+    <div class="mb-8">
+        <span class="relative z-0 inline-flex shadow-sm">
+            <SortButton
+                @first="true"
+                @text="Title"
+                @sort="title"
+                @testSelector="sort-by-title-asc"
+            />
+            <SortButton
+                @text="Title"
+                @sort="-title"
+                @testSelector="sort-by-title-desc"
+            />
+            <SortButton
+                @text="Rating"
+                @sort="rating"
+                @testSelector="sort-by-rating-asc"
+            />
+            <SortButton
+                @last="true"
+                @text="Rating"
+                @sort="-rating"
+                @testSelector="sort-by-rating-desc"
+            />
+            
+        </span>
+    </div>
+
+
     <ul>
         {{#each this.sortedSongs as |song|}}
             <li class="mb-2" data-test-rr="song-list-item">
