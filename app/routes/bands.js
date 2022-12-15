@@ -3,10 +3,17 @@ import { inject as service } from '@ember/service';
 import Band from 'rarwe/models/band';
 import fetch from 'fetch';
 
+function wait(delay) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, delay);
+  });
+}
+
 export default class BandsRoute extends Route {
   @service catalog;
 
   async model() {
+    await wait(3000);
     return this.catalog.fetchAll('bands');
     /*
     let ultraViolentLightCannon = new Song({
