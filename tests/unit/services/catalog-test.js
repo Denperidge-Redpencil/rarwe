@@ -9,7 +9,7 @@ module('Unit | Service | catalog', function (hooks) {
   test('it can store and retrieve bands', function (assert) {
     let catalog = this.owner.lookup('service:catalog');
     catalog.add('band', new Band({ id: 1, name: 'Led Zeppelin' }));
-    
+
     assert.strictEqual(catalog.bands.length, 1);
     assert.strictEqual(catalog.bands[0].name, 'Led Zeppelin');
   });
@@ -21,11 +21,11 @@ module('Unit | Service | catalog', function (hooks) {
       new Song({
         id: 1,
         title: 'Achilles Last Stand',
-        rating: 5
+        rating: 5,
       })
     );
     assert.strictEqual(catalog.songs.length, 1);
-    assert.strictEqual(catalog.songs[0].title, 'Achilles Last Stand')
+    assert.strictEqual(catalog.songs[0].title, 'Achilles Last Stand');
   });
 
   test('it can load a record from a JSON:API response', function (assert) {
@@ -40,16 +40,15 @@ module('Unit | Service | catalog', function (hooks) {
         relationships: {
           songs: {
             links: {
-              related: '/bands/1/songs'
-            }
-          }
-        }
-      }
+              related: '/bands/1/songs',
+            },
+          },
+        },
+      },
     });
-    
+
     let band = catalog.bands[0];
     assert.strictEqual(band.name, 'TOOL');
     assert.strictEqual(band.relationships.songs, '/bands/1/songs');
   });
-
 });
