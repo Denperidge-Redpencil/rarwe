@@ -54,7 +54,7 @@ module('Acceptance | songs', function (hooks) {
     [
       ['Mind Eraser, No Chaser', 2],
       ['Elephants', 4],
-      ['Spinning in Daffodils', 5],
+      ['Spinning In Daffodils', 5],
       ['New Fang', 3],
     ].forEach((songInfo) => {
       this.server.create('song', {
@@ -75,7 +75,7 @@ module('Acceptance | songs', function (hooks) {
       '',
       'Elephants',
       'the one that comes first in the alphabet',
-      'Spinning in Daffodils',
+      'Spinning In Daffodils',
       'the one that comes last in the alphabet'
     );
 
@@ -84,7 +84,7 @@ module('Acceptance | songs', function (hooks) {
       assert,
       currentURL,
       'sort-by-title-desc',
-      'Spinning in Daffodils',
+      'Spinning In Daffodils',
       'the one that comes last in the alphabet',
       'Elephants',
       'the one that comes first in the alphabet'
@@ -96,7 +96,7 @@ module('Acceptance | songs', function (hooks) {
       'sort-by-rating-asc',
       'Mind Eraser, No Chaser',
       'the lowest rated',
-      'Spinning in Daffodils',
+      'Spinning In Daffodils',
       'the highest rated'
     );
 
@@ -104,7 +104,7 @@ module('Acceptance | songs', function (hooks) {
       assert,
       currentURL,
       'sort-by-rating-desc',
-      'Spinning in Daffodils',
+      'Spinning In Daffodils',
       'the highest rated',
       'Mind Eraser, No Chaser',
       'the lowest rated'
@@ -116,7 +116,7 @@ module('Acceptance | songs', function (hooks) {
     [
       ['Mind Eraser, No Chaser', 2],
       ['Elephants', 4],
-      ['Spinning in Daffodils', 5],
+      ['Spinning In Daffodils', 5],
       ['New Fang', 3],
       ['No One Loves Me & Neither Do I', 4],
     ].forEach((songInfo) => {
