@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import Song from 'rarwe/models/song';
 import { inject as service } from '@ember/service';
+import { capitalize } from 'rarwe/helpers/capitalize';
 
 export default class BandsBandSongsController extends Controller {
   @tracked showAddSong = true;
@@ -41,6 +42,13 @@ export default class BandsBandSongsController extends Controller {
   @action
   updateSearchTerm(event) {
     this.searchTerm = event.target.value;
+  }
+
+  get newSongPlaceholder() {
+    let bandName = this.model.name;
+    console.log(bandName)
+    console.log(capitalize(bandName))
+    return `New ${capitalize(bandName)} song`;
   }
 
   @action
