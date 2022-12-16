@@ -4,6 +4,7 @@ import Song from 'rarwe/models/song';
 import { tracked } from 'tracked-built-ins';
 import { isArray } from '@ember/array';
 import fetch from 'fetch';
+import ENV from 'rarwe/config/environment';
 
 function extractRelationships(object) {
   let relationships = {};
@@ -58,8 +59,16 @@ export default class CatalogService extends Service {
 
   constructor() {
     super(...arguments);
-    this.storage.bands = new Collection(Band, 'band', 'bands', '/bands');
-    this.storage.songs = new Collection(Song, 'song', 'songs', '/songs');
+    this.storage.bands = new Collection(Band, 'band', 'bands', this.bandsURL);
+    this.storage.songs = new Collection(Song, 'song', 'songs', this.songsURL);
+  }
+
+  get bandsURL() {
+    return `${ENV.apiHost || ''}/bands`;
+  }
+
+  get songsURL() {
+    return `${ENV.apiHost || ''}/songs`;
   }
 
   selectCollection(typeToSelect) {
