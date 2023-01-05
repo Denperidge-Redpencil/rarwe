@@ -20,6 +20,8 @@ function menu {
         pushd rarwe-backend/
         docker-compose up --detach
         popd
+    elif [[ $selection == "4" ]]; then
+        ember s --proxy=http://localhost:80/ &
     else
         echo "Shutting down!"
         kill -9 $(jobs -p)
